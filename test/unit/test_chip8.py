@@ -13,7 +13,7 @@ from CHIP8 import CHIP8
 def test_load_instruction(test_memory):
     cpu = CHIP8()
     assert all(b == 0 for b in cpu.MEMORY[cpu.PC_START_OFFSET:])
-    cpu.MEMORY = cpu.MEMORY[:200] + [int(b) for b in test_memory]
+    cpu.MEMORY = cpu.MEMORY[:0x200] + [int(b) for b in test_memory]
     i = 0
     while i < len(test_memory):
         instruction = cpu.load_instruction()
@@ -32,11 +32,31 @@ def test_load_instruction(test_memory):
 def test_LD(load_instruction):
     cpu = CHIP8()
     assert all(b == 0 for b in cpu.MEMORY[cpu.PC_START_OFFSET:])
-    cpu.MEMORY = cpu.MEMORY[:200] + [int(b) for b in load_instruction]
+    cpu.MEMORY = cpu.MEMORY[:0x200] + [int(b) for b in load_instruction]
     i = 0
     while i < len(load_instruction):
         cpu.execute()
         register_index = ((load_instruction[0] << 8 | load_instruction[1]) & 0x0F00) >> 8
         assert cpu.REGISTERS['GPR'][register_index] == load_instruction[1]
+        # check each 2 bytes
+        i += 2
+
+
+@pytest.mark.parametrize(
+    "jp_instruction",
+    [
+        [0x10, 0xFD],
+        [31, 74]
+    ]
+)
+def test_JP(jp_instruction):
+    cpu = CHIP8()
+    assert all(b == 0 for b in cpu.MEMORY[cpu.PC_START_OFFSET:])
+    cpu.MEMORY = cpu.MEMORY[:0x200] + [int(b) for b in jp_instruction]
+    i = 0
+    while i < len(jp_instruction):
+        cpu.execute()
+        assert (jp_instruction[0]) >> 4 == 0x1
+        assert cpu.REGISTERS['pc'] == (jp_instruction[0] << 8 | jp_instruction[1]) & 0x0FFF
         # check each 2 bytes
         i += 2
