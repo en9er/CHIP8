@@ -6,7 +6,7 @@ from CHIP8 import CHIP8
 
 WHITE = [255, 255, 255]
 BLACK = [0, 0, 0]
-SIZE = 20
+SIZE = 10
 
 
 def main_loop():
