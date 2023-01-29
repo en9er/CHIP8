@@ -21,7 +21,8 @@ def main_loop():
     screen = pygame.display.set_mode(
         [cpu.screen_width * SIZE, cpu.screen_height * SIZE]
     )
-    pygame.time.set_timer(pygame.USEREVENT + 1, int(1000 / 60))
+    pygame.init()
+    pygame.time.set_timer(pygame.USEREVENT + 1, 1)
     while True:
         clock.tick(200)
         cpu.key_input()

@@ -468,7 +468,7 @@ class CHIP8:
         self.REGISTERS["GPR"][-1] = 0
         x_position = self.REGISTERS["GPR"][x]
         y_position = self.REGISTERS["GPR"][y]
-        sprite_data = self.MEMORY[self.REGISTERS["I"] : self.REGISTERS["I"] + n]
+        sprite_data = self.MEMORY[self.REGISTERS["I"]:self.REGISTERS["I"] + n]
         if self.draw_sprite(x_position, y_position, sprite_data):
             self.REGISTERS["GPR"][-1] = 1
         else:
