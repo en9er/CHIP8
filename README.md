@@ -4,7 +4,7 @@ installation
 ```
 git clone https://github.com/en9er/CHIP8.git
 cd CHIP8
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 run 
